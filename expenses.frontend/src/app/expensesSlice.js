@@ -1,4 +1,9 @@
-import { createSlice } from '@reduxjs/toolkit';
+import { createSlice, createAction } from '@reduxjs/toolkit';
+
+export const setExpensesError = createAction('setExpensesError');
+export const newExpenseError = createAction('newExpenseError');
+export const editExpenseError = createAction('editExpenseError');
+export const deleteExpenseError = createAction('deleteExpenseError');
 
 export const expensesSlice = createSlice({
   name: 'expenses',
@@ -30,6 +35,12 @@ export const expensesSlice = createSlice({
   }
 });
 
+// const expensesAdapter = createEntityAdapter();
+// export const { setExpenses: returnAllExpenses } = expensesAdapter.getSelectors(
+//   (state) => state.expenses
+// );
+
+//const {action, reducer } = expensesSlice;
 export const { setExpenses, newExpense, editExpense, deleteExpense } =
   expensesSlice.actions;
 export default expensesSlice.reducer;

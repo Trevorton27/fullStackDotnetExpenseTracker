@@ -2,47 +2,61 @@ import {
   setExpenses,
   newExpense,
   editExpense,
-  deleteExpense
+  deleteExpense,
+  setExpensesError,
+  editExpenseError,
+  newExpenseError,
+  deleteExpenseError
 } from '../app/expensesSlice';
-import axios from 'axios';
+import * as axios from 'axios';
 
 const axiosInstance = axios.create({
-  baseURL: 'https://localhost:44300/expenses'
+  baseURL: `${process.env.REACT_APP_BASE_URL}/expenses`
+});
+
+axiosInstance.interceptors.request.use((config) => {
+  config.headers = {
+    authorization: 'Bearer ' + sessionStorage.getItem('token')
+  };
+  return config;
 });
 
 export const GetExpenses = async (dispatch) => {
   try {
-    //api call
+    // api call
     const { data } = await axiosInstance.get();
     dispatch(setExpenses(data));
-  } catch (error) {
-    console.log('Error');
+  } catch {
+    dispatch(setExpensesError());
   }
 };
 
 export const NewExpense = async (dispatch, expense) => {
   try {
+    // api call
     const { data } = await axiosInstance.post('', expense);
     dispatch(newExpense(data));
-  } catch (error) {
-    console.log('Error');
+  } catch {
+    dispatch(newExpenseError());
   }
 };
 
 export const EditExpense = async (dispatch, expense) => {
   try {
+    // api call
     await axiosInstance.put('', expense);
     dispatch(editExpense(expense));
-  } catch (error) {
-    console.log('error');
+  } catch {
+    dispatch(editExpenseError());
   }
 };
 
 export const DeleteExpense = async (dispatch, expense) => {
   try {
+    // api call
     await axiosInstance.delete('', { data: { ...expense } });
     dispatch(deleteExpense(expense));
   } catch {
-    console.log('Error!');
+    dispatch(deleteExpenseError());
   }
 };

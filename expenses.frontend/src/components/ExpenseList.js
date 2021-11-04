@@ -3,9 +3,11 @@ import { useDispatch, useSelector } from 'react-redux';
 import { GetExpenses } from '../services/expenses';
 import { Button, Row, Col } from 'react-bootstrap';
 import ExpenseForm from './ExpenseForm';
+//import { returnAllExpenses } from '../app/expensesSlice';
 
 const ExpenseList = () => {
   const dispatch = useDispatch();
+
   const expenses = useSelector((state) => state.expensesSlice.expenses);
 
   useEffect(() => {
@@ -14,7 +16,7 @@ const ExpenseList = () => {
 
   return expenses.map((e) => {
     return (
-      <div key={e.id} style={{ marginBottome: '1rem' }}>
+      <div key={e.id} style={{ marginBottom: '1rem' }}>
         <ListRow expense={e} />
       </div>
     );
